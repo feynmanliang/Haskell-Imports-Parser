@@ -24,7 +24,7 @@ quotedCell =
 quotedChar :: ParsecT String u Identity Char
 quotedChar =
   noneOf "\""
-  <|> try (string "\"" >> return '"')
+  <|> try (string "\"\"" >> return '"')
 
 eol :: ParsecT String u Identity String
 eol = try (string "\n\r")
