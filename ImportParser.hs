@@ -1,6 +1,10 @@
 {-# OPTIONS -Wall -fwarn-tabs #-}
 module ImportParser where
 
+-- | Demonstrates scoping backtracking `try`s so Parsec
+-- can produce more meaningful localized failures by only
+-- backtracking when appropriate
+
 import Data.Functor.Identity
 import Text.Parsec
 import qualified Text.Parsec.Token as P
