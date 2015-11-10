@@ -1,8 +1,9 @@
 {-# OPTIONS -Wall -fwarn-tabs #-}
 module URLEncodedQueryStringParser where
 
-import Numeric (readHex)
+import Control.Monad
 import Data.Functor.Identity (Identity)
+import Numeric (readHex)
 import Text.Parsec.Prim (ParsecT)
 import Text.ParserCombinators.Parsec
 
@@ -10,9 +11,7 @@ p_query :: CharParser () [(String, Maybe String)]
 p_query = p_pair `sepBy` char '&'
 
 p_pair :: ParsecT String () Identity (String, Maybe String)
-p_pair = do key <- many1 p_char
-            value <- optionMaybe (char '=' >> many p_char)
-            return (key, value)
+p_pair = liftM2 (,) (many1 p_char) (optionMaybe (char '=' >> many p_char))
 
 p_char :: ParsecT String () Identity Char
 p_char = oneOf urlBaseChars
