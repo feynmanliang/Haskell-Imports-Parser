@@ -24,7 +24,9 @@ quotedCell =
 quotedChar :: ParsecT String u Identity Char
 quotedChar =
   noneOf "\""
-  <|> try (string "\"\"" >> return '"')
+  <|> try (string "\"\"" >> return '"') -- interpret quoted double quotes `""` as `"`
+  -- `try` only has effect when on the left of <|>, in this case the <|>
+  -- is inside the implementation of `many` for `many quotedChar`
 
 eol :: ParsecT String u Identity String
 eol = try (string "\n\r")
